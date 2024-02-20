@@ -79,7 +79,7 @@ img_cdn:
 avatar: assets/img/avatar/avatar.jpeg
 
 # the favicon for the site
-favicon: assets/img/favicons/favicon.ico
+#favicon: assets/img/favicons/favicon.ico
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
