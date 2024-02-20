@@ -28,14 +28,14 @@ url: "https://aarons3225.github.io"
 github:
   username: aarons3225 # change to your github username
 
-twitter:
-  username: aaronsabol20 # change to your twitter username
+#twitter:
+#  username: aaronsabol20 # change to your twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: Aaron
-  email: aaron.sabol@outlook.com # change to your email address
+  email: your.name@example.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/aaronsabol20 # change to your twitter homepage
@@ -77,6 +77,9 @@ img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
 avatar: assets/img/avatar/avatar.jpeg
+
+# the favicon for the site
+favicon: assets/img/favicons/favicon.ico
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
