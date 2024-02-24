@@ -2,8 +2,7 @@
 title: Reverse Proxy
 date: 2024-02-19 00:00:00
 categories:
-  - homelab
-  - general
+  - blog
 tags:
   - homelab
   - server

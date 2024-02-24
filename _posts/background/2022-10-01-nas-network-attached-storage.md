@@ -2,9 +2,7 @@
 title: NAS (Network Attached Storage)
 date: 2022-10-01 00:00:00
 categories:
-  - homelab
-  - hardware
-  - network
+  - blog
 tags:
   - homelab
   - hardware

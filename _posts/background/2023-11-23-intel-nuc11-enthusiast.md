@@ -2,9 +2,7 @@
 title: Intel Nuc11 Enthusiast
 date: 2023-11-23 00:00:00
 categories:
-  - homelab
-  - hardware
-  - server
+  - blog
 tags:
   - homelab
   - hardware

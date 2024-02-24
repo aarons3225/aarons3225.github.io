@@ -2,11 +2,7 @@
 title: Zimaboard
 date: 2024-02-22 02:00:00
 categories:
-  - homelab
-  - hardware
-  - zimaboard
-  - server
-  - self-host
+  - blog
 tags:
   - homelab
   - zimaboard
