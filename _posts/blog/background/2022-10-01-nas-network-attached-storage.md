@@ -1,6 +1,7 @@
 ---
+layout: post
 title: NAS (Network Attached Storage)
-date: 2022-10-01 00:00:00
+date: 2022-10-01 00:00:00 -0500
 categories:
   - blog
 tags:

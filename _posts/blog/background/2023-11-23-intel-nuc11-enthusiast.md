@@ -1,6 +1,7 @@
 ---
+layout: post
 title: Intel Nuc11 Enthusiast
-date: 2023-11-23 00:00:00
+date: 2023-11-23 00:00:00 -0500
 categories:
   - blog
 tags:

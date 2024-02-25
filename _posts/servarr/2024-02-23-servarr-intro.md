@@ -1,6 +1,7 @@
 ---
+layout: post
 title: Introduction to Servarr
-date: 2024-02-23 00:00:00 -500
+date: 2024-02-23 00:00:00 -0500
 categories:
   - servarr
 tags:

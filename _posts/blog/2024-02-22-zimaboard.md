@@ -1,6 +1,7 @@
 ---
+layout: post
 title: Zimaboard
-date: 2024-02-22 02:00:00
+date: 2024-02-22 02:00:00 -0500
 categories:
   - blog
 tags:
