@@ -30,6 +30,7 @@ Readarr is for books.
 # Data Structure
 
 Your data structure should look like this:
+```
 |--- /data
 |      |---- 1 media
 |      |        |_ movies
@@ -45,7 +46,7 @@ Your data structure should look like this:
 |      |        |_ books
 |      |        |_ etc.
 |      |---- 2 downloads
-
+```
 
 # Access
 
