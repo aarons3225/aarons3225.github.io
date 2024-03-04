@@ -1,8 +1,8 @@
 ---
 icon: fas fa-info-circle
 order: 1
-banner: "![[aarons3225.github.io/assets/banners/about.jpeg]]"
 ---
+![Banner](/assets/banners/about.jpeg)
 My name is aaron. I was born in the early 90's. I currently work in a jail, but tech is a hobby/passion of mine. I also like to go shooting and camping. Among other things, I have 2 dogs.
 
 # Homelabbing
