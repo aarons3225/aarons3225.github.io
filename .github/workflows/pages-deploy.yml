@@ -41,13 +41,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          static_site_generator: 'node20'  # Specify the Node.js version here
+          node-version: '20'
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
-        with:
-          static_site_generator: 'node20'  # Specify the Node.js version here
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -81,5 +79,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-        with:
-          static_site_generator: 'node20'
