@@ -33,24 +33,25 @@ copy this:
 ```yml
 version: "3.4"
 services:
-	app:
-	container_name: lubelogger
-	image: ghcr.io/hargata/lubelogger:latest
-	build: .
-	restart: unless-stopped
-# volumes used to keep data persistent
-	volumes:
-		- ./config:/App/config
-		- ./data:/App/data
-		- ./translations:/App/wwwroot/translations
-		- ./documents:/App/wwwroot/documents
-		- ./images:/App/wwwroot/images
-		- ./temp:/App/wwwroot/temp
-		- ./log:/App/log
-		- ./keys:/root/.aspnet/DataProtection-Keys
-# expose port and/or use serving via traefik
-	ports:
-		- 8888:8080
+  app:
+    container_name: lubelogger
+    image: ghcr.io/hargata/lubelogger:latest
+    build: .
+    restart: unless-stopped
+    # volumes used to keep data persistent
+    volumes:
+      - ./config:/App/config
+      - ./data:/App/data
+      - ./translations:/App/wwwroot/translations
+      - ./documents:/App/wwwroot/documents
+      - ./images:/App/wwwroot/images
+      - ./temp:/App/wwwroot/temp
+      - ./log:/App/log
+      - ./keys:/root/.aspnet/DataProtection-Keys
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # expose port and/or use serving via traefik
+    ports:
+      - 8888:8080
 ```
 
 Now exit out of nano.
