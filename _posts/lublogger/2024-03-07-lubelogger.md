@@ -9,11 +9,15 @@ tags:
   - home-management
   - vehicles
 ---
-![lubelog-banner](/assets/banners/lubelog.jpeg)
+![lubelog-banner](/aarons3225.github.io/assets/banners/lubelog.jpeg)
 # LubeLogger
 Lubelogger is a self hosted app for anyone who owns a vehicle, from the average person to the weekend racer. It helps manage your maintenance, repairs, or upgrades and keeps track of the records. It can also keep track of expenses associated with your vehicles. It supports tracking your fuel economy as well as taxes and registration. Let's just say, it's a handy tool for anyone that spin up a docker image.
 
 From their website, it is available as a docker image and a Windows standalone executable. If you want to install via windows, check out their documentation below. I went with docker.
+
+# Photos
+![lubelog-main](/aarons3225.github.io/assets/img/lubelog/lubelog-main.png)
+![lubelog-dash](/aarons3225.github.io/assets/img/lubelog/lubelog-vehicle-dash.png)
 
 # Installation
 Wherever you have your docker compose files, navigate there. For me it looks like this:
