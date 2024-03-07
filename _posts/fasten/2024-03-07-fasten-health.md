@@ -1,6 +1,6 @@
 ---
 title: Fasten Health
-date: 2024-03-07 00:00:00 -500
+date: 2024-03-07 08:00:00 -500
 categories:
   - self-host
 tags:
@@ -32,7 +32,7 @@ sudo mkdir fasten
 cd fasten
 sudo nano compose.yml
 ```
->Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.{: .prompt-info }
+>Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.
 
 copy this:
 ```yml
@@ -57,7 +57,7 @@ You should still be in your docker folder where you created the compose.yml file
 sudo docker compose up -d
 
 ```
->Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.{: .prompt-info }
+>Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.
 
 From here, if you installed this on the computer you are using, you should be able to go to http://localhost:9090 or if it was installed on another computer, http://ip-of-computer:9090.
 
