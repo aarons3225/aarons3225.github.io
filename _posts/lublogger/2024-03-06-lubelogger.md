@@ -2,7 +2,7 @@
 title: LubeLogger
 date: 2024-03-06 22:00:00 -500
 categories:
-  - homelab
+  - self-host
 tags:
   - homelab
   - self-host
