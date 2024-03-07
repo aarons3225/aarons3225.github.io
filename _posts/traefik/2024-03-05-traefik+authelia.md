@@ -47,52 +47,57 @@ This password goes in your user_database.yml file.
 When you edit the configuration.yml file, make sure you add each application into the section access_control:
 ```yml
 access_control:
-	default_policy: deny
-	rules:
-		- domain: portainer.yourdomain.com
-		  policy: one_factor
+  default_policy: deny
+  rules:
+    # Rules applied to everyone
+    - domain: portainer.odinactual.com
+      policy: one_factor
 ```
 
 # Traefik
 Modify your traefik config.yml file. Add authelia to the middlewares sections:
 ```yml
 http:
-	routers:
-		portainer:
-			entryPoints:
-				- "https"
-			rule: "Host(`portainer.yourdomain.com`)"
-			middlewares:
-				- authelia
-				- default-headers
-				- https-redirectscheme
-			tls: {}
-			service: portainer
-	services:
-		portainer:
-			loadBalancer:
-				servers:
-					- url: "https://<<host ip>>:9000"
-				passHostHeader: true
-	middlewares:
-		https-redirect:
-			redirectScheme:
-				scheme: https
-		authelia:
-			forwardAuth:
-				address: "http://authelia:9091/api/verify?rd=https://auth.yourdomain.com"
-		default-headers:
-			headers:
-			frameDeny: true
-			browserXssFilter: true
-			contentTypeNosniff: true
-			forceSTSHeader: true
-			stsIncludeSubdomains: true
-			stsPreload: true
-			stsSeconds: 15552000
-			customFrameOptionsValue: SAMEORIGIN
-			customRequestHeaders:
-			X-Forwarded-Proto: https
+ #region routers 
+  routers:
+    portainer:
+      entryPoints:
+        - "https"
+      rule: "Host(`portainer.yourdomain.com`)"
+      middlewares:
+        - authelia
+        - default-headers
+        - https-redirectscheme
+      tls: {}
+      service: portainer
+#endregion
+#region services
+  services:
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.0.11:9000"
+        passHostHeader: true
+#endregion
+  middlewares:
+    https-redirect:
+      redirectScheme:
+        scheme: https
+    authelia:
+      forwardAuth:
+        address: "http://authelia:9091/api/verify?rd=https://auth.odinactual.com"
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
 ```
 Then add the traefik label to the application (traefik.http.routers.container_name-secure.middlewares=authelia@docker) like so:
 
@@ -100,35 +105,35 @@ Then add the traefik label to the application (traefik.http.routers.container_na
 version: '3'
 
 services:
-	portainer:
-		image: portainer/portainer-ce
-		container_name: portainer
-		restart: unless-stopped
-		security_opt:
-			- no-new-privileges:true
-		networks:
-			- proxy
-		volumes:
-			- /etc/localtime:/etc/localtime:ro
-			- /var/run/docker.sock:/var/run/docker.sock:ro
-			- /home/username/docker/portainer/data:/data
-		labels:
-			- traefik.enable=true
-			- traefik.http.routers.portainer.entrypoints=http
-			- traefik.http.routers.portainer.rule=Host(`portainer.yourdomain.com`)
-			- traefik.http.middlewares.portainer-https-redirect.redirectscheme.scheme=https
-			- traefik.http.routers.portainer.middlewares=portainer-https-redirect
-			- traefik.http.routers.portainer-secure.entrypoints=https
-			- traefik.http.routers.portainer-secure.rule=Host(`portainer.yourdomain.com`)
-			- traefik.http.routers.portainer-secure.tls=true
-			- traefik.http.routers.portainer-secure.service=portainer
-			- traefik.http.services.portainer.loadbalancer.server.port=9000
-			- traefik.http.routers.portainer-secure.middlewares=authelia@docker
-			- traefik.docker.network=proxy
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /home/aaron/docker/portainer/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.entrypoints=http"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.odinactual.com`)"
+      - "traefik.http.middlewares.portainer-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.portainer.middlewares=portainer-https-redirect"
+      - "traefik.http.routers.portainer-secure.entrypoints=https"
+      - "traefik.http.routers.portainer-secure.rule=Host(`portainer.odinactual.com`)"
+      - "traefik.http.routers.portainer-secure.tls=true"
+      - "traefik.http.routers.portainer-secure.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.portainer-secure.middlewares=authelia@docker"
 
 networks:
-	proxy:
-		external: true
+  proxy:
+    external: true
 ```
 
 # Starting up
