@@ -23,22 +23,24 @@ The main issue, and what brings me to write this is once I set up Authelia, I co
 I had this set up:
 ```yml
 access_control:
-	default_policy: deny
-	rules:
-		- domain: radarr.yourdomain.com
-		  policy: one_factor
+  default_policy: deny
+  rules:
+    # Rules applied to everyone
+    - domain: radarr.odinactual.com
+      policy: one_factor
 ```
 
 # The fix
 To fix it, I had to change a few things. Since LunaSea uses the api to make requests, I had to look for and mess with ways to bypass the authentication when using api. Here is my fix:
 ```yml
 access_control:
-	default_policy: one_factor
-	rules:
-		- domain: radarr.yourdomain.com
-		  policy: bypass
-		  resources:
-		  - '^/api([/?].*)?$'
+  default_policy: one_factor
+  rules:
+    # Rules applied to everyone
+    - domain: radarr.odinactual.com
+      policy: bypass
+	  resources:
+	  - '^/api([/?].*)?$'
 ```
 
 The reason I said this my not be the best solution, is I had to change the default_policy to one_factor from deny. I then had to change the policy for specific domain to bypass, add the resources and the regex for the api. I got it to work, so now if I visit it in a web browser, I can use Authelia to authenticate, but LunaSea can still bypass with api. 
