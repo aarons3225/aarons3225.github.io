@@ -39,8 +39,8 @@ access_control:
     # Rules applied to everyone
     - domain: radarr.odinactual.com
       policy: bypass
-	  resources:
-	  - '^/api([/?].*)?$'
+	    resources:
+	    - '^/api([/?].*)?$'
 ```
 
 The reason I said this my not be the best solution, is I had to change the default_policy to one_factor from deny. I then had to change the policy for specific domain to bypass, add the resources and the regex for the api. I got it to work, so now if I visit it in a web browser, I can use Authelia to authenticate, but LunaSea can still bypass with api. 
