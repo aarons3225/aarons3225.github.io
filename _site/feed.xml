@@ -1,0 +1,166 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://192.168.0.11:4000/</id>
+  <title>OdinActual</title>
+  <subtitle>A blog, docs, etc. for my homelab.</subtitle>
+  <updated>2024-04-28T20:42:48-07:00</updated>
+  <author>
+    <name>Aaron</name>
+    <uri>http://192.168.0.11:4000/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="http://192.168.0.11:4000/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="http://192.168.0.11:4000/"/>
+  <generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator>
+  <rights> © 2024 Aaron </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>homepage</title>
+    <link href="http://192.168.0.11:4000/posts/Welcome-to-homepage/" rel="alternate" type="text/html" title="homepage" />
+    <published>2024-04-28T00:00:00-07:00</published>
+  
+    <updated>2024-04-28T00:00:00-07:00</updated>
+  
+    <id>http://192.168.0.11:4000/posts/Welcome-to-homepage/</id>
+    <content src="http://192.168.0.11:4000/posts/Welcome-to-homepage/" />
+    <author>
+      <name>Aaron</name>
+    </author>
+
+  
+    
+    <category term="self-host" />
+    
+  
+
+  <summary>![banner][/aarons3225.github.io/assets/banners/homepage.jpeg]
+What is homepage?
+==A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{: .prompt-info }==1
+
+How to install
+
+This will require docker and docke...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Sources List Linux</title>
+    <link href="http://192.168.0.11:4000/posts/Sources-List-Linux/" rel="alternate" type="text/html" title="Sources List Linux" />
+    <published>2024-04-20T22:00:00-07:00</published>
+  
+    <updated>2024-04-20T22:00:00-07:00</updated>
+  
+    <id>http://192.168.0.11:4000/posts/Sources-List-Linux/</id>
+    <content src="http://192.168.0.11:4000/posts/Sources-List-Linux/" />
+    <author>
+      <name>Aaron</name>
+    </author>
+
+  
+    
+    <category term="homelab" />
+    
+  
+
+  <summary>About
+The sources list is where you add repositories for things. Some popular ones are backports, plex, and other things.
+
+From Ubuntu Manpage1:
+
+  sources.list
+The source list /etc/apt/sources.list and the files contained in /etc/apt/sources.list.d/ etc/apt/sources.list.d/ are designed to support any number of active sources and a variety of source media. The files list one source per line (on...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Swap.img and disk full fix</title>
+    <link href="http://192.168.0.11:4000/posts/SWAP-&amp;-Disk-Full-Fix/" rel="alternate" type="text/html" title="Swap.img and disk full fix" />
+    <published>2024-03-09T22:00:00-07:00</published>
+  
+    <updated>2024-03-09T22:00:00-07:00</updated>
+  
+    <id>http://192.168.0.11:4000/posts/SWAP-&amp;-Disk-Full-Fix/</id>
+    <content src="http://192.168.0.11:4000/posts/SWAP-&amp;-Disk-Full-Fix/" />
+    <author>
+      <name>Aaron</name>
+    </author>
+
+  
+    
+    <category term="homelab" />
+    
+  
+
+  <summary>Reason for post
+Plex randomly stopped working. I wondered why? It took me a bit to figure out, but I checked my webmin dashboard and saw that my disk was full. Some playing around and I had high swap.img usage and the ubuntu-lvm volume created at startup was full. So here is my fix below. I view this as how to put that particular fire out, I have not figured out how to stop the fire from happen...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Plex</title>
+    <link href="http://192.168.0.11:4000/posts/Plex/" rel="alternate" type="text/html" title="Plex" />
+    <published>2024-03-08T22:00:00-07:00</published>
+  
+    <updated>2024-03-08T22:00:00-07:00</updated>
+  
+    <id>http://192.168.0.11:4000/posts/Plex/</id>
+    <content src="http://192.168.0.11:4000/posts/Plex/" />
+    <author>
+      <name>Aaron</name>
+    </author>
+
+  
+    
+    <category term="self-host" />
+    
+  
+
+  <summary>Intro
+Plex is the primary reason behind my homelab. Do you enjoy relaxing at home and watching a movie? Maybe a TV Show? Well how do you do it? Amazon prime? Netflix? Blu-ray?  Do you have subscriptions to all of those?
+
+The cost can add up and you don’t really own anything. Sometimes those services remove your favorite movie or show. Then what?
+
+What is plex?
+Plex has two applications. The ser...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Fasten Health</title>
+    <link href="http://192.168.0.11:4000/posts/fasten-health/" rel="alternate" type="text/html" title="Fasten Health" />
+    <published>2024-03-07T06:00:00-07:00</published>
+  
+    <updated>2024-03-07T06:00:00-07:00</updated>
+  
+    <id>http://192.168.0.11:4000/posts/fasten-health/</id>
+    <content src="http://192.168.0.11:4000/posts/fasten-health/" />
+    <author>
+      <name>Aaron</name>
+    </author>
+
+  
+    
+    <category term="self-host" />
+    
+  
+
+  <summary>Intro
+Who has spent time trying to keep track of their health? Who has spent time trying to also keep track of their medical records? Well I have found a solution and was curious about it. I tried it out with success, and I overall like it. I have found an issue, however, it is not with fasten health per se, it is with insurance that my employer provides.
+
+My issue
+So as I stated above, the iss...</summary>
+
+  </entry>
+
+</feed>
+
+
