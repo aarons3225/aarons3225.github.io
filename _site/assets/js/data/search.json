@@ -1,0 +1,395 @@
+[
+  
+  {
+    "title": "homepage",
+    "url": "/posts/Welcome-to-homepage/",
+    "categories": "self-host",
+    "tags": "homelab, home-page, dashboard",
+    "date": "2024-04-28 00:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "![banner][/aarons3225.github.io/assets/banners/homepage.jpeg]What is homepage?==A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for o...",
+    "content": "![banner][/aarons3225.github.io/assets/banners/homepage.jpeg]What is homepage?==A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{: .prompt-info }==1How to installThis will require docker and docker compose-v2, then to be running linux or mac. This will also work easiest if you have a code server installed on the system you want to use. If on a remote server, removes the need to ssh into it.If on your local machine, open your terminal. If you host this on a remote server, open your terminal and ssh into it.My setup from home is /home/user/docker/service. So from home:cd dockersudo mkdir homepagecd homepagesudo touch compose.yml .envNow you if you use ls -a, you should see two files.To modify the compose file:sudo nano compose.ymlcopy the compose file below:version: \"3.9\"services:  homepage:    image: ghcr.io/gethomepage/homepage:latest    container_name: homepage    ports:      - 3000:3000    env_file: .env # use .env    volumes:      - /home/aaron/docker/homepage:/app/config # Make sure your local config      - directory exists      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods      - /home/aaron/docker/homepage/images:/images # For images      - /dev/md0:/dev/md0 # For system disk      - /mnt/media:/mnt/media # For Media disk    environment:      PUID: $PUID # read them from .env      PGID: $GUID # read them from .env    restart: unless-stoppedIf you use traefik to reverse-proxy then add the labels like so:version: \"3.9\"services:  homepage:    image: ghcr.io/gethomepage/homepage:latest    container_name: homepage    ports:      - 3000:3000    env_file: .env # use .env    volumes:      - ./config:/app/config # Make sure your local config directory exists      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods      - /home/aaron/docker/homepage/images:/images # For images      - /dev/md0:/dev/md0 # For system disk      - /mnt/media:/mnt/media # For Media disk    environment:      PUID: $PUID # read them from .env      PGID: $GUID # read them from .env    labels:\t  - traefik.enable=true\t  - traefik.http.routers.homepage.entrypoints=http\t  - traefik.http.routers.homepage.rule=Host(`$URL`)\t  - traefik.http.middlewares.homepage-https-redirect.redirectscheme.scheme=https\t  - traefik.http.routers.homepage.middlewares=homepage-https-redirect\t  - traefik.http.routers.homepage-secure.entrypoints=https\t  - traefik.http.routers.homepage-secure.rule=Host(`$URL`)\t  - traefik.http.routers.homepage-secure.tls=true\t  - traefik.http.routers.homepage-secure.service=homepage\t  - traefik.http.services.homepage.loadbalancer.server.port=3000\t  - traefik.docker.network=proxy\t  - traefik.http.routers.homepage-secure.middlewares=authelia@docker # for authelia authentication    restart: unless-stopped\tnetworks:\t  - proxynetworks:  proxy:    external: trueCtrl + x, then “y”, and enter to save.now for the .env file:sudo nano .envCopy these contents:PUID=1000GUID=1000URL=     # For the URL that you want to use ie dashboard.example.comHOMEPAGE_VAR_PLEX_URL_EXT=   # example for external service urlHOMEPAGE_VAR_PLEX_URL_INT=   # example for internal internal urlSame thing to exit as before.To spin up the container, you should be able to:sudo docker compose up -dThe container will create the necessary files. From here, to modify things they will be in separate files:  services.yaml - for the services that you run and want to link to.  bookmarks.yaml - to modify/add/remove bookmarks  settings.yaml - to modify/add/remove configurations and settings  widgets.yaml - to modify/add/remove the widgets at the top of the page (separate from the services widgets)An example for service.yaml:```yaml    For media instances    Media:          Plex:  icon: plex.png  href: “” # format for .env file  siteMonitor: “”  description: Watch movies and TV shows.  widget:    type: plex    url: “”    key: “” # see https://www.plexopedia.com/plex-media-server/general/plex-token/      Tautulli:  icon: tautulli.png  href: “”  siteMonitor: “”  description: Plex Streaming Information  widget:  type: tautulli  url: “”  key: “”```The format to use the .env file is in the .env file use:HOMEPAGE_VAR_PLEX_URL_EXT=http://plex.example.comfirst part: HOMEPAGE_VAR_ is required by app.second part: is your decision. I utilized my service and description as above.Copy the whole thing, example: HOMEPAGE_VAR_PLEX_URL_EXT.As above, in quotes and double curly brackets, paste.      ==This is not required. It is preferred as it helps safeguard things like domain names and api keys if you share your setup.==You could just as easily set the PUID in the compose file to 1000 instead of doing so in the .env file. Or you could directly link items in the service.yaml file like so:href: https://plex.tv   # orhref: http://192.168.0.0:8080 # orkey: fjdkljak323efdkljCheck out their website for types of services and widgets you can use for your dashboard:Service Widgetsat the very bottom, you will find widgets for the top bar part. There are very cool things you can do to change the look like adding tabs:TabsPhotos of mine:Citationshttps://gethomepage.dev/latest/            HomePage &#8617;      "
+  },
+  
+  {
+    "title": "Sources List Linux",
+    "url": "/posts/Sources-List-Linux/",
+    "categories": "homelab",
+    "tags": "homelab, linux",
+    "date": "2024-04-20 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "AboutThe sources list is where you add repositories for things. Some popular ones are backports, plex, and other things.From Ubuntu Manpage1:  sources.listThe source list /etc/apt/sources.list and ...",
+    "content": "AboutThe sources list is where you add repositories for things. Some popular ones are backports, plex, and other things.From Ubuntu Manpage1:  sources.listThe source list /etc/apt/sources.list and the files contained in /etc/apt/sources.list.d/ etc/apt/sources.list.d/ are designed to support any number of active sources and a variety of source media. The files list one source per line (one-line style) or contain multiline stanzas defining one or more sources per stanza (deb822 style), with the most preferred source listed first (in case a single version is available from more than one source). The information available from the configured sources is acquired by apt-get update (or by an equivalent command from another APT front-end).  sources.list.d The /etc/apt/sources.list.d directory provides a way to add sources.list entries in separate files. Two different file formats are allowed as described in the next two sections. Filenames need to have either the extension .list or .sources depending on the contained format. The filenames may only contain letters (a-z and A-Z), digits (0-9), underscore (_), hyphen (-) and period (.) characters. Otherwise APT will print a notice that it has ignored a file, unless that file matches a pattern in the Dir::Ignore-Files-Silently configuration list - in which case it will be silently ignored.How ToWhile in the Linux system, either via ssh or on an actual desktop setup:cd /etc/apt/lsLook for the sources.list file. From there enter:sudo nano sources.listMake any modifications and then CTRL + X, Y, and then Enter to exit.Popular ReposSome popular repos to add are as follows:\tPlex2:\t\tadd to sources.list.d\t\tdeb https://downloads.plex.tv/repo/deb/ public main\tBackports3:\t\tadd to sources.list\t\tdeb http://archive.ubuntu.com/ubuntu release-backports main restricted universe multiverse\t\tdeb-src http://archive.ubuntu.com/ubuntu release-backports main restricted universe multiverse\t\tReplace the “release” with the system OS name, like mantic for Ubuntu 23.10UtilizationFor an application like Cockpit4, it may be necessary to utilize backports repository.From their website, use:. /etc/os-releasesudo apt install -t ${VERSION_CODENAME}-backports cockpitCitations            Ubuntu Manpage: https://manpages.ubuntu.com/manpages/focal/man5/sources.list.5.html &#8617;              Plex Repo: https://support.plex.tv/articles/235974187-enable-repository-updating-for-supported-linux-server-distributions/ &#8617;              Backports: https://askubuntu.com/questions/25717/how-do-i-enable-the-backports-repository &#8617;              Cockpit: https://cockpit-project.org/running.html#ubuntu &#8617;      "
+  },
+  
+  {
+    "title": "Swap.img and disk full fix",
+    "url": "/posts/SWAP-&-Disk-Full-Fix/",
+    "categories": "homelab",
+    "tags": "homelab, linux, swapimage, diskfull",
+    "date": "2024-03-09 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "Reason for postPlex randomly stopped working. I wondered why? It took me a bit to figure out, but I checked my webmin dashboard and saw that my disk was full. Some playing around and I had high swa...",
+    "content": "Reason for postPlex randomly stopped working. I wondered why? It took me a bit to figure out, but I checked my webmin dashboard and saw that my disk was full. Some playing around and I had high swap.img usage and the ubuntu-lvm volume created at startup was full. So here is my fix below. I view this as how to put that particular fire out, I have not figured out how to stop the fire from happening in the first place.Swap ImageI have ran into an issue where the swapfile has become full. I have found a fix to it, but it is to resize it. Swap file basically uses ram so if you don’t want to keep giving it more and more and more to the point where you need to upgrade the ram, then what I did was basically delete the swap file and make a new one.HowLog in via ssh or open the terminal:sudo swapoff -asudo rm swap.imgNext go to webmin dashboard, http://ipaddress:10000. Go to System/Disk and Network Filesystems. At the bottom is Virtual Memory. Click on it.It should take you to a Edit Mount page. On the mount now? click mount. on the right, make sure swap file is selected. Click save.It should bring you to a page to select file size. Edit it, then click save.You should be able to check the free space with the command:free -mDisk fullOpen the webmin dashboard, http://ipaddress:10000, then go to Hardware/Logical Volume Management.Click on Logical VolumesClick on the disk icon labeled ubuntu-lv with a size of disk below label.For volume size, modify that to desired size, then click save.CitationsWebmin:  main: https://webmin.com  downloads: https://webmin.com/download/Ploi.io:  https://ploi.io/documentation/server/change-swap-size-in-ubuntu"
+  },
+  
+  {
+    "title": "Plex",
+    "url": "/posts/Plex/",
+    "categories": "self-host",
+    "tags": "homelab, plex, media, self-host",
+    "date": "2024-03-08 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "IntroPlex is the primary reason behind my homelab. Do you enjoy relaxing at home and watching a movie? Maybe a TV Show? Well how do you do it? Amazon prime? Netflix? Blu-ray?  Do you have subscript...",
+    "content": "IntroPlex is the primary reason behind my homelab. Do you enjoy relaxing at home and watching a movie? Maybe a TV Show? Well how do you do it? Amazon prime? Netflix? Blu-ray?  Do you have subscriptions to all of those?The cost can add up and you don’t really own anything. Sometimes those services remove your favorite movie or show. Then what?What is plex?Plex has two applications. The server and the client.Plex media server is an application that allows you to point the application to a directory of media files. The application then serves those media files up to a client.Plex has apps for about every device. Your phone, tablet, Apple TV, Xbox, etc. This allows you to play the files that your plex media server is pointing to. These apps are clients.When you download Netflix for example, it is acting as a client to the Netflix servers that serve all the content they offer that is stored on many many hard drives. Plex does the same thing but for your own home using your own hardware and content you own at a smaller scale.FeaturesPlex has many features. A couple that are very convenient are:  Remote connection: this means that plex content can be viewed on a mobile device not on your home network. You can stream your favorite movies or shows you own while on the go.  Metadata matching: this means it will pull information from the internet to give you details about the movie or show including posters, descriptions, cast, etc.  Offline viewing: this means that you can download the media directly to your device similar to how other services will let you to view when you don’t have a data connection i.e. on a plane.  DVR: plex allows you to connect a tuner to your server to record live tv and view it later like TiVO.Connecting other servicesNow I’ve mention in other posts about services like radarr and sonarr. Both of those are media library management software for movies and shows respectively. They can move your library en mass, keep track of series i.e. John Wick, rename your files, etc.Renaming of files is perhaps the biggest reason for utilizing the services. Plex has a particular naming scheme to utilize the metadata matching. That’s why I am including those services here in this post. It’s an important piece that helps tie in the reason for having them in the first place.How to install itPlex has a variety of options to install both the server and client apps. Personally, I have an Intel NUC that I use pretty much dedicated to Plex. Instead of using windows, I opted to install Ubuntu Server on it and run Plex that way. It has a 11th Gen Core i7 plus an NVIDIA GPU. I also have all of my media on a NAS (Network Attached Storage), where I point my plex media server at.If you are on windows, you can download the executable from their website, same with Mac and the .dmg file. They support many systems. Personally, I started with the linux .deb file, but it would update for whatever reason. So I switched to the docker version. to do this method it’s super easy if you are on mac or linux. You can follow along right here: Open a terminal. Wherever you want to store your docker config files, navigate there. For me that looks like this: /home/username/docker. Type this into your terminal:sudo mkdir plexcd plexsudo nano compose.ymlFrom there, copy this into your clipboard:version: \"3\"services:  plex:    image: plexinc/pms-docker    container_name: plex    network_mode: host    environment:      - PUID=1000      - PGID=1000      - TZ=America/Phoenix ## For your time zone      - VERSION=docker      - PLEX_CLAIM=plex claim token ## Can be found at https://plex.tv/claim      #- NVIDIA_VISIBLE_DEVICES=all  ## For NVIDIA GPU support only, delete the '#' if needed.    volumes:      - ./config:/config      ## For config folder      - /dev/shm/:/transcode  ## For using ram as transcode location      - /mnt/media:/Media     ## directory for media, modify the left side of the semicolon only.     ## For NVIDIA GPUs only    devices:      - /dev/dri:/dev/dri    deploy:      resources:        reservations:          devices:          - driver: nvidia            count: all            capabilities: [gpu]    ## End GPU portion    restart: unless-stoppedModify it to meet your needs like editing your claim token and the folder where your media is, and the GPU support section then exit out of the file. It should be CTRL+X, then “Y”, then enter.From there, you should be in the plex directory still. Now just type this into your terminal:sudo docker compose up -dYour plex server should be up and running.Now you can navigate to it from your web browser: http://localhost:32400/web if you installed it on the same machine you are using. If not, http://ipaddressofserver:32400/web. I have to do that one. It should have you make an account, and follow the directions. Name your server, add a library, and viola! If you have not created your account, go to their home website below. Once you have an account, you can should be able to access it from https://app.plex.tv/desktop/#!/ as well.CitationsPlex:\tMain: https://www.plex.tv\tServer Downloads: https://www.plex.tv/media-server-downloads/?cat=computer&amp;plat=macos#plex-media-server\tClient Downloads: https://www.plex.tv/media-server-downloads/?cat=plex+desktop&amp;plat=macos#plex-app\tDevices: You can also search your device’s app store for their app as well\tSupport: https://support.plex.tv/articles/"
+  },
+  
+  {
+    "title": "Fasten Health",
+    "url": "/posts/fasten-health/",
+    "categories": "self-host",
+    "tags": "homelab, home-management, self-host, health",
+    "date": "2024-03-07 06:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "IntroWho has spent time trying to keep track of their health? Who has spent time trying to also keep track of their medical records? Well I have found a solution and was curious about it. I tried i...",
+    "content": "IntroWho has spent time trying to keep track of their health? Who has spent time trying to also keep track of their medical records? Well I have found a solution and was curious about it. I tried it out with success, and I overall like it. I have found an issue, however, it is not with fasten health per se, it is with insurance that my employer provides.My issueSo as I stated above, the issue I have is with the way my insurance is handled or set up by my employer. Fasten health uses the records that the insurance companies have and pulls them into the app to be viewed by a user interface. The way it’s set up with my company, I have insurance, I can login to the insurances website, but Fasten cannot pull the data as the insurance company. This is what the issue is from UHC:      FLEX was designed to be in compliance with the CMS Final rule. Eligibility errors generally occurs when the member has a UHC plan but not one that falls under the umbrella of that rule so they are not currently eligible for FLEX. If a member sees an eligibility error please confirm they have a plan that falls into one of the categories listed there and not a commercial plan.  So just be wary if you fall in that category.PhotosHow to installWherever you have your docker compose files, navigate there. For me it looks like this:/home/username/docker. Then once there:sudo mkdir fastencd fastensudo nano compose.yml  Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.copy this:version: \"3.3\"services:  fasten:    container_name: fasten    ports:      - 9090:8080    volumes:      - ./db:/opt/fasten/db      - ./cache:/opt/fasten/cache    image: ghcr.io/fastenhealth/fasten-onprem:mainNow exit out of nano.You should still be in your docker folder where you created the compose.yml file. Now it’s time to run it.sudo docker compose up -d  Note: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.From here, if you installed this on the computer you are using, you should be able to go to http://localhost:9090 or if it was installed on another computer, http://ip-of-computer:9090.Fasten Health:\tMain: https://www.fastenhealth.com\tGithub: https://github.com/fastenhealth/fasten-onprem"
+  },
+  
+  {
+    "title": "LubeLogger",
+    "url": "/posts/lubelogger/",
+    "categories": "self-host",
+    "tags": "homelab, self-host, home-management, vehicles",
+    "date": "2024-03-06 20:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "LubeLoggerLubelogger is a self hosted app for anyone who owns a vehicle, from the average person to the weekend racer. It helps manage your maintenance, repairs, or upgrades and keeps track of the ...",
+    "content": "LubeLoggerLubelogger is a self hosted app for anyone who owns a vehicle, from the average person to the weekend racer. It helps manage your maintenance, repairs, or upgrades and keeps track of the records. It can also keep track of expenses associated with your vehicles. It supports tracking your fuel economy as well as taxes and registration. Let’s just say, it’s a handy tool for anyone that spin up a docker image.From their website, it is available as a docker image and a Windows standalone executable. If you want to install via windows, check out their documentation below. I went with docker.PhotosInstallationWherever you have your docker compose files, navigate there. For me it looks like this:/home/username/docker. Then once there:sudo mkdir lubelogcd lubelogsudo nano compose.ymlNote: I am assuming you are running docker compose v2. If you are not, use docker-compose.yml.copy this:version: \"3.4\"services:  app:    container_name: lubelogger    image: ghcr.io/hargata/lubelogger:latest    build: .    restart: unless-stopped    # volumes used to keep data persistent    volumes:      - ./config:/App/config      - ./data:/App/data      - ./translations:/App/wwwroot/translations      - ./documents:/App/wwwroot/documents      - ./images:/App/wwwroot/images      - ./temp:/App/wwwroot/temp      - ./log:/App/log      - ./keys:/root/.aspnet/DataProtection-Keys      - /var/run/docker.sock:/var/run/docker.sock:ro    # expose port and/or use serving via traefik    ports:      - 8888:8080Now exit out of nano.You should still be in your docker folder where you created the compose.yml file. Now it’s time to run it.sudo docker compose up -dFrom here, if you installed this on the computer you are using, you should be able to go to http://localhost:8888 or if it was installed on another computer, http://ip-of-computer:8888.LubeLogger:\tMain: https://lubelogger.com\tGitHub: https://github.com/hargata/lubelog\tDocs: https://docs.lubelogger.com/Getting%20Started"
+  },
+  
+  {
+    "title": "LunaSea + Traefik + Authelia",
+    "url": "/posts/LunaSea+Traefik+Authelia/",
+    "categories": "traefik",
+    "tags": "homelab, servarr, self-host, radarr, sonarr, lidarr",
+    "date": "2024-03-06 06:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "About LunaSeaLunaSea is an awesome iOS app that allows you to connect to your Radarr, Sonarr, Lidarr, SABnzbd, and Tautulli applications that you can self host. It does so by acting as a remote. Yo...",
+    "content": "About LunaSeaLunaSea is an awesome iOS app that allows you to connect to your Radarr, Sonarr, Lidarr, SABnzbd, and Tautulli applications that you can self host. It does so by acting as a remote. You can control your instances too.DownloadFor the iOS app store link is here.The main issueThe main issue, and what brings me to write this is once I set up Authelia, I could no longer utilize LunaSea. Looking into it, I found that LunaSea does not, at least at the moment offer support for OAuth. So I had to do some playing around. I found a solution, albeit maybe not the best solution. It had to do with my configs.I had this set up:access_control:  default_policy: deny  rules:    # Rules applied to everyone    - domain: radarr.odinactual.com      policy: one_factorThe fixTo fix it, I had to change a few things. Since LunaSea uses the api to make requests, I had to look for and mess with ways to bypass the authentication when using api. Here is my fix:access_control:  default_policy: one_factor  rules:    # Rules applied to everyone    - domain: radarr.odinactual.com      policy: bypass\t    resources:\t    - '^/api([/?].*)?$'The reason I said this my not be the best solution, is I had to change the default_policy to one_factor from deny. I then had to change the policy for specific domain to bypass, add the resources and the regex for the api. I got it to work, so now if I visit it in a web browser, I can use Authelia to authenticate, but LunaSea can still bypass with api.Whoever happens to see this, I hope it helps. If anyone knows of a better way, please let me know.LunaSea:\tMain: https://www.lunasea.app\tDocs: https://docs.lunasea.appAuthelia:\tMain: https://www.authelia.com\tDocs: https://www.authelia.com/configuration/prologue/introduction/"
+  },
+  
+  {
+    "title": "Traefik + Authelia",
+    "url": "/posts/traefik+authelia/",
+    "categories": "traefik",
+    "tags": "homelab, self-host, network, reverse-proxy, SSO",
+    "date": "2024-03-05 06:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "A brief overview of AutheliaAuthelia is an open-source authentication and authorization server and portal fulfilling the identity and access management (IAM) role of information security in providi...",
+    "content": "A brief overview of AutheliaAuthelia is an open-source authentication and authorization server and portal fulfilling the identity and access management (IAM) role of information security in providing multi-factor authentication and single sign-on (SSO) for your applications via a web portal. It acts as a companion for common reverse proxies.Requirements  Domain Name (with access to add A records and C records)  A Linux computer or mac (I used Ubuntu server 23.10 on a zimaboard)  Docker with docker compose v2  VS Code or other editor (optional, but helps a ton)  Watch Techno Tim’s video (link)Set upCreate the folder where you are going to install the docker compose file if it doesn’t already exist, and where to store the app data. In this example for simplicity, It will be installed in /home/username/docker/authelia. From the home directory:cd dockersudo mkdir autheliacd autheliasudo mkdir configcd configsudo touch configuration.ymlsudo touch users_database.ymlcd ..sudo touch compose.ymlGo to Techno Tim’s GitHub Repo with this link. Open up your favorite text editor, I used VS Code. If you have a folder where you store backup configs or other files navigate there, if not just create a few files with the same names above (compose.yml, configuration.yml, users_database.yml). Copy those files in github to their respective files in your editor. Edit them to your liking/needs.To generate a hashed password$ sudo docker run authelia/authelia:latest authelia hash-password 'yourpassword'Password hash: $argon2id$v=19$m=65536$3oc26byQuSkQqksq$zM1QiTvVPrMfV6BVLs2t4gM+af5IN7euO0VB6+Q8ZFsThis password goes in your user_database.yml file.When you edit the configuration.yml file, make sure you add each application into the section access_control:access_control:  default_policy: deny  rules:    # Rules applied to everyone    - domain: portainer.odinactual.com      policy: one_factorTraefikModify your traefik config.yml file. Add authelia to the middlewares sections:http: #region routers   routers:    portainer:      entryPoints:        - \"https\"      rule: \"Host(`portainer.yourdomain.com`)\"      middlewares:        - authelia        - default-headers        - https-redirectscheme      tls: {}      service: portainer#endregion#region services  services:    portainer:      loadBalancer:        servers:          - url: \"https://192.168.0.11:9000\"        passHostHeader: true#endregion  middlewares:    https-redirect:      redirectScheme:        scheme: https    authelia:      forwardAuth:        address: \"http://authelia:9091/api/verify?rd=https://auth.odinactual.com\"    default-headers:      headers:        frameDeny: true        browserXssFilter: true        contentTypeNosniff: true        forceSTSHeader: true        stsIncludeSubdomains: true        stsPreload: true        stsSeconds: 15552000        customFrameOptionsValue: SAMEORIGIN        customRequestHeaders:          X-Forwarded-Proto: httpsThen add the traefik label to the application (traefik.http.routers.container_name-secure.middlewares=authelia@docker) like so:version: '3'services:  portainer:    image: portainer/portainer-ce    container_name: portainer    restart: unless-stopped    security_opt:      - no-new-privileges:true    networks:      - proxy    volumes:      - /etc/localtime:/etc/localtime:ro      - /var/run/docker.sock:/var/run/docker.sock:ro      - /home/aaron/docker/portainer/data:/data    labels:      - \"traefik.enable=true\"      - \"traefik.http.routers.portainer.entrypoints=http\"      - \"traefik.http.routers.portainer.rule=Host(`portainer.odinactual.com`)\"      - \"traefik.http.middlewares.portainer-https-redirect.redirectscheme.scheme=https\"      - \"traefik.http.routers.portainer.middlewares=portainer-https-redirect\"      - \"traefik.http.routers.portainer-secure.entrypoints=https\"      - \"traefik.http.routers.portainer-secure.rule=Host(`portainer.odinactual.com`)\"      - \"traefik.http.routers.portainer-secure.tls=true\"      - \"traefik.http.routers.portainer-secure.service=portainer\"      - \"traefik.http.services.portainer.loadbalancer.server.port=9000\"      - \"traefik.docker.network=proxy\"      - \"traefik.http.routers.portainer-secure.middlewares=authelia@docker\"networks:  proxy:    external: trueStarting upStart up authelia and restart Traefik and Portainer. Make sure you’re in the authelia directory, if unsure, use the command “pwd”.  To navigate to home directory, use command cd ~. From home directory:cd dockercd traefiksudo docker compose up -d --force-recreatecd ..cd autheliasudo docker compose up -dcd ..cd portainersudo docker compose up -d --force-recreateEverything should be working!Don’t forget to support TechnoTim. He has an online store on the same site as his blog post.CitationsAuthelia - https://www.authelia.comTitle: # 2 Factor Auth and Single Sign on with AutheliaAuthor: Timothy StewartURL: https://technotim.live/posts/authelia-traefik/YouTube: https://www.youtube.com/watch?v=u6H-Qwf4nZAGithub:\tauthelia: https://github.com/techno-tim/launchpad/tree/master/docker/authelia\ttraefik updates: https://github.com/techno-tim/techno-tim.github.io/tree/master/reference_files/authelia-traefik/traefik"
+  },
+  
+  {
+    "title": "Traefik",
+    "url": "/posts/traefik/",
+    "categories": "traefik",
+    "tags": "homelab, self-host, network, reverse-proxy",
+    "date": "2024-03-04 06:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "A brief overview of TraefikTraefik is a reverse proxy for your self hosted applications as well as a load balancer. Their goal was to make things as easy as possible to deploy services within your ...",
+    "content": "A brief overview of TraefikTraefik is a reverse proxy for your self hosted applications as well as a load balancer. Their goal was to make things as easy as possible to deploy services within your infrastructure, whether that is a homelab or a company with a building full of servers. Traefik labs say it configures itself automatically and dynamically.Requirements  Domain Name (with access to add A records and C records)  A Linux computer or mac (I used Ubuntu server 23.10 on a zimaboard)  Docker with docker compose v2  VS Code or other editor (optional, but helps a ton)  Watch Techno Tim’s video before you do any of the install (link)  Watch Christian Lempa’s video as well (link)InstallationFor this part I followed Techno Tim’s guide (see a link to his post here). However, I had trouble with it. I still sort of do. My main problem right now, is that I cannot connect my TrueNAS (separate hardware) to Traefik that is running on my zimaboard. My other problem is I have some applications that do not want to work with Traefik (Fasten Health, Lube Logger, NTFY). I do have other applications that work with it though.Depending on what you are installing this on, same machine or a secondary machine, you may need to get started by SSH into it.From there, create the folder where you are going to install the docker compose file if it doesn’t already exist, and where to store the app data. In this example for simplicity, It will be installed in /home/username/docker/traefik. From the home directory:cd dockersudo mkdir traefikcd traefiksudo touch compose.ymlsudo mkdir datasudo touch config.ymlsudo touch traefik.ymlsudo touch acme.jsonsudo chmod 600 acme.jsonNow that we have created the directory and files, create the docker network. Techno Tim use the name proxy, so I did too. However, you can name it whatever you want, like traefik or mysuperawesomedockernetwork.sudo docker network create proxyThis is where having a text editor is super helpful. Open it up, I used VS Code. If you have a folder where you store backup configs or other files navigate there, if not just create a few files with the same names above (compose.yml, config.yml, traefik.yml). You can also download them from the github repo below.In your web browser, navigate to his github repo here. From here, edit them to whatever you need. Use the documentation as a reference as well as the two videos above in the requirements section. I used all three to figure out how to configure my Traefik instance. Then past those into the corresponding files.After that, go to to your domain provider. I used cloudflare. Create your A record that points to your home’s IP address. Next create a C record. Call it something you’ll remember like traefik and use your domain. The result should be something like traefik.yourdomain.com.From there, go back to your terminal session and generate a basic auth password:sudo apt updatesudo apt install apache2-utilsecho $(htpasswd -nb \"&lt;USER&gt;\" \"&lt;PASSWORD&gt;\") | sed -e s/\\\\$/\\\\$\\\\$/gNOTE: Replace &lt;USER&gt; with your username and &lt;PASSWORD&gt; with your password to be hashed.==If you’re having an issue with your password, it might not be escaped properly and you can use the following command to prompt for your password==echo $(htpasswd -nB USER) | sed -e s/\\\\$/\\\\$\\\\$/gPaste the output in your docker-compose.yml in line (traefik.http.middlewares.traefik-auth.basicauth.users=&lt;USER&gt;:&lt;HASHED-PASSWORD&gt;)Now spin it up:sudo docker compose up -dAny time you make changes to any of the Traefik files, navigate to the folder where the compose.yml file is and use this command in the terminal to update Traefik:sudo docker compose up -d --force-recreateAn example of how to use traefik:From home directory, to get there use command “cd ~”:cd dockersudo mkdir portainercd portainersudo nano compose.ymlPaste the following compose file, then escape out. I know using Mac its control+x, y, then enter.Portainer compose file:version: '3'services:  portainer:    image: portainer/portainer-ce    container_name: portainer    restart: unless-stopped    security_opt:      - no-new-privileges:true    networks:      - proxy    volumes:      - /etc/localtime:/etc/localtime:ro      - /var/run/docker.sock:/var/run/docker.sock:ro      - /home/aaron/docker/portainer/data:/data    labels:      - \"traefik.enable=true\"      - \"traefik.http.routers.portainer.entrypoints=http\"      - \"traefik.http.routers.portainer.rule=Host(`portainer.odinactual.com`)\"      - \"traefik.http.middlewares.portainer-https-redirect.redirectscheme.scheme=https\"      - \"traefik.http.routers.portainer.middlewares=portainer-https-redirect\"      - \"traefik.http.routers.portainer-secure.entrypoints=https\"      - \"traefik.http.routers.portainer-secure.rule=Host(`portainer.odinactual.com`)\"      - \"traefik.http.routers.portainer-secure.tls=true\"      - \"traefik.http.routers.portainer-secure.service=portainer\"      - \"traefik.http.services.portainer.loadbalancer.server.port=9000\"      - \"traefik.docker.network=proxy\"      - \"traefik.http.routers.portainer-secure.middlewares=authelia@docker\"networks:  proxy:    external: truetraefik config file:http: #region routers   routers:    portainer:      entryPoints:        - \"https\"      rule: \"Host(`portainer.yourdomain.com`)\"      middlewares:        - authelia        - default-headers        - https-redirectscheme      tls: {}      service: portainer#endregion#region services  services:    portainer:      loadBalancer:        servers:          - url: \"https://192.168.0.11:9000\"        passHostHeader: true#endregionThere is more at the bottom of the config file for middlewares and more, just leave that alone.Don’t forget to support TechnoTim. He has an online store on the same site as his blog post. Citations—Traefik Labs - https://traefik.io/traefik/Documentation - https://doc.traefik.io/traefik/Title: Put Wildcard Certificates and SSL on EVERYTHINGAuthor: Timothy StewartURL: https://technotim.live/posts/traefik-portainer-ssl/Github Repo: https://github.com/techno-tim/techno-tim.github.io/tree/master/reference_files/traefik-portainer-ssl/traefikTitle: Is this the BEST Reverse Proxy for Docker? // Traefik TutorialAuthor: Christian LempaURL: https://www.youtube.com/watch?v=wLrmmh1eI94"
+  },
+  
+  {
+    "title": "Readarr",
+    "url": "/posts/readarr/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host, readarr",
+    "date": "2024-02-24 03:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "ReadarrReadarr is an eBook and audiobook collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new books and will interface with clients and indexers to grab, so...",
+    "content": "ReadarrReadarr is an eBook and audiobook collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new books and will interface with clients and indexers to grab, sort, and rename them. It can also be configured to automatically upgrade the quality of existing files in the library when a better quality format becomes available. It does not manage comics or magazines.Docker ComposeSSH into your server. Depending on how you want to set it up you can create a folder called docker and nest your docker compose folders inside like /docker/readarr or just create a folder called readarr. Then cd into it.For /docker/readarr do this…sudo mkdir docker &amp;&amp; cd dockerthensudo mkdir readarr &amp;&amp; cd readarror for just a readarr directory like /readarr do this…sudo mkdir readarr &amp;&amp; cd readarrOnce you create the desired folders, create a docker compose file. Assuming you have V2 of docker compose, you don’t need a hyphen between or docker in front.sudo touch compose.ymlsudo nano compose.ymlThen just copy this into your text editor:services: \treadarr: \t\tcontainer_name: readarr \t\timage: ghcr.io/hotio/readarr\t\tports:\t\t\t- \"8787:8787\" \t\tenvironment: \t\t\t- PUID=1000 \t\t\t- PGID=1000 \t\t\t- UMASK=002 \t\t\t- TZ=Etc/UTC \t\tvolumes: \t\t\t- /&lt;host_folder_config&gt;:/config \t\t\t- /&lt;host_folder_data&gt;:/dataMake sure to change the TZ to your Time Zone. For example, mine would look like TZ=America/Phoenix. Do the same to your PUID and GUID.Also modify your config folder. Only modify the left side of the colon. For example mine on a linux server would look like: volumes:  - /home/aaron/docker/readarr:/configThe data folder is for the application to access your media files so it can monitor your media library. Make sure this folder is set up to access your media however you have it set up. If you are using a USB external hard drive, it should be found under /media. If you are using a NAS with mounted folders, it is usually found under /mnt/.Once you have the desired settings, copy the entire file and paste into your compose.yml file.Now you can run it with:sudo docker compose up -dAccessing readarrNow that you have it running, open your favorite web browser and go to http://localhost:8787 if running on the same machine, or if it is not, use the ip address of the server.You now have a running version of readarr!!A huge shoutout to Hotio and Servarr Wiki. You can find more information and support from the following links:Hotio:https://hotio.dev/containers/readarr/Servarr Wiki:https://wiki.servarr.com/en/readarr"
+  },
+  
+  {
+    "title": "Lidarr",
+    "url": "/posts/lidarr/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host, lidarr",
+    "date": "2024-02-24 02:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "LidarrLidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new tracks from your favorite artists and will grab, sort and rename them. It can a...",
+    "content": "LidarrLidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new tracks from your favorite artists and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.Docker ComposeSSH into your server. Depending on how you want to set it up you can create a folder called docker and nest your docker compose folders inside like /docker/lidarr or just create a folder called lidarr. Then cd into it.For /docker/lidarr do this…sudo mkdir docker &amp;&amp; cd dockerthensudo mkdir lidarr &amp;&amp; cd lidarror for just a lidarr directory like /radarr do this…sudo mkdir lidarr &amp;&amp; cd lidarrOnce you create the desired folders, create a docker compose file. Assuming you have V2 of docker compose, you don’t need a hyphen between or docker in front.sudo touch compose.ymlsudo nano compose.ymlThen just copy this into your text editor:services: \tlidarr: \t\tcontainer_name: lidarr \t\timage: ghcr.io/hotio/lidarr:latest\t\tports: - \"8686:8686\"\t\tenvironment: \t\t\t- PUID=1000 \t\t\t- PGID=1000 \t\t\t- UMASK=002 \t\t\t- TZ=Etc/UTC \t\tvolumes: \t\t\t- /&lt;host_folder_config&gt;:/config\t\t\t- /&lt;host_folder_data&gt;:/dataMake sure to change the TZ to your Time Zone. For example, mine would look like TZ=America/Phoenix. Do the same to your PUID and GUID.Also modify your config folder. Only modify the left side of the colon. For example mine on a linux server would look like: volumes:  - /home/aaron/docker/lidarr:/configThe data folder is for the application to access your media files so it can monitor your media library. Make sure this folder is set up to access your media however you have it set up. If you are using a USB external hard drive, it should be found under /media. If you are using a NAS with mounted folders, it is usually found under /mnt/.Once you have the desired settings, copy the entire file and paste into your compose.yml file.Now you can run it with:sudo docker compose up -dAccessing lidarrNow that you have it running, open your favorite web browser and go to http://localhost:8686 if running on the same machine, or if it is not, use the ip address of the server.You now have a running version of lidarr!!You now have a running version of prowlarr!!A huge shoutout to Hotio and Servarr Wiki. You can find more information and support from the following links:Hotio:https://hotio.dev/containers/lidarr/Servarr Wiki:https://wiki.servarr.com/en/lidarr"
+  },
+  
+  {
+    "title": "Sonarr",
+    "url": "/posts/sonarr/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host, sonarr",
+    "date": "2024-02-24 01:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "SonarrSonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to au...",
+    "content": "SonarrSonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.Docker ComposeSSH into your server. Depending on how you want to set it up you can create a folder called docker and nest your docker compose folders inside like /docker/sonarr or just create a folder called sonarr. Then cd into it.For /docker/sonarr do this…sudo mkdir docker &amp;&amp; cd dockerthensudo mkdir sonarr &amp;&amp; cd sonarror for just a sonarr directory like /sonarr do this…sudo mkdir sonarr &amp;&amp; cd sonarrOnce you create the desired folders, create a docker compose file. Assuming you have V2 of docker compose, you don’t need a hyphen between or docker in front.sudo touch compose.ymlsudo nano compose.ymlThen just copy this into your text editor:services:  sonarr:    container_name: sonarr    image: ghcr.io/hotio/sonarr    ports:      - \"8989:8989\"    environment:      - PUID=1000      - PGID=1000      - UMASK=002      - TZ=Etc/UTC    volumes:      - /&lt;host_folder_config&gt;:/config      - /&lt;host_folder_data&gt;:/dataMake sure to change the TZ to your Time Zone. For example, mine would look like TZ=America/Phoenix. Do the same to your PUID and GUID.Also modify your config folder. Only modify the left side of the colon. For example mine on a linux server would look like: volumes:  - /home/aaron/docker/sonarr:/configThe data folder is for the application to access your media files so it can monitor your media library. Make sure this folder is set up to access your media however you have it set up. If you are using a USB external hard drive, it should be found under /media. If you are using a NAS with mounted folders, it is usually found under /mnt/.Once you have the desired settings, copy the entire file and paste into your compose.yml file.Now you can run it with:sudo docker compose up -dAccessing sonarrNow that you have it running, open your favorite web browser and go to http://localhost:8989 if running on the same machine, or if it is not, use the ip address of the server.You now have a running version of sonarr!!A huge shoutout to Hotio and Servarr Wiki. You can find more information and support from the following links:Hotio:https://hotio.dev/containers/sonarr/Servarr Wiki:https://wiki.servarr.com/en/sonarr"
+  },
+  
+  {
+    "title": "Radarr",
+    "url": "/posts/radarr/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host, radarr",
+    "date": "2024-02-24 00:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "RadarrRadarr is a movie collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new movies and will interface with clients and indexers to grab, sort, and rename t...",
+    "content": "RadarrRadarr is a movie collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new movies and will interface with clients and indexers to grab, sort, and rename them. It can also be configured to automatically upgrade the quality of existing files in the library when a better quality format becomes available.Docker ComposeSSH into your server. Depending on how you want to set it up you can create a folder called docker and nest your docker compose folders inside like /docker/radarr or just create a folder called radarr. Then cd into it.For /docker/radarr do this…sudo mkdir docker &amp;&amp; cd dockerthensudo mkdir radarr &amp;&amp; cd radarror for just a radarr directory like /radarr do this…sudo mkdir radarr &amp;&amp; cd radarrOnce you create the desired folders, create a docker compose file. Assuming you have V2 of docker compose, you don’t need a hyphen between or docker in front.sudo touch compose.ymlsudo nano compose.ymlThen just copy this into your text editor:services:  radarr:    container_name: radarr    image: ghcr.io/hotio/radarr:latest    ports:      - \"7878:7878\"    environment:      - PUID=1000      - PGID=1000      - UMASK=002      - TZ=Etc/UTC    volumes:      - /&lt;host_folder_config&gt;:/config      - /&lt;host_folder_data&gt;:/dataMake sure to change the TZ to your Time Zone. For example, mine would look like TZ=America/Phoenix. Do the same to your PUID and GUID.Also modify your config folder. Only modify the left side of the colon. For example mine on a linux server would look like: volumes:  - /home/aaron/docker/radarr:/configThe data folder is for the application to access your media files so it can monitor your media library. Make sure this folder is set up to access your media however you have it set up. If you are using a USB external hard drive, it should be found under /media. If you are using a NAS with mounted folders, it is usually found under /mnt/.Once you have the desired settings, copy the entire file and paste into your compose.yml file.Now you can run it with:sudo docker compose up -dAccessing radarrNow that you have it running, open your favorite web browser and go to http://localhost:7878 if running on the same machine, or if it is not, use the ip address of the server.You now have a running version of radarr!!A huge shoutout to Hotio and Servarr Wiki. You can find more information and support from the following links:Hotio:https://hotio.dev/containers/radarr/Servarr Wiki:https://wiki.servarr.com/en/radarr"
+  },
+  
+  {
+    "title": "Prowlarr",
+    "url": "/posts/prowlarr/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host, prowlarr",
+    "date": "2024-02-23 23:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "ProwlarrProwlarr is an indexer manager/proxy built on the popular arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usen...",
+    "content": "ProwlarrProwlarr is an indexer manager/proxy built on the popular arr .net/reactjs base stack to integrate with your various PVR apps. Prowlarr supports management of both Torrent Trackers and Usenet Indexers. It integrates seamlessly with LazyLibrarian, Lidarr, Mylar3, Radarr, Readarr, and Sonarr offering complete management of your indexers with no per app Indexer setup required (we do it all).Docker ComposeSSH into your server. Depending on how you want to set it up you can create a folder called docker and nest your docker compose folders inside like /docker/prowlarr or just create a folder called prowlarr. Then cd into it.For /docker/prowlarr do this…sudo mkdir docker &amp;&amp; cd dockerthensudo mkdir prowlarr &amp;&amp; cd prowlarror for just a prowlarr directory like /prowlarr do this…sudo mkdir prowlarr &amp;&amp; cd prowlarrOnce you create the desired folders, create a docker compose file. Assuming you have V2 of docker compose, you don’t need a hyphen between or docker in front.sudo touch compose.ymlsudo nano compose.ymlThen just copy this into your text editor:services:   prowlarr:     container_name: prowlarr     image: ghcr.io/hotio/prowlarr:latest     ports: - \"9696:9696\"     environment:       - PUID=1000       - PGID=1000       - UMASK=002       - TZ=Etc/UTC     volumes:       - /&lt;host_folder_config&gt;:/configMake sure to change the TZ to your Time Zone. For example, mine would look like TZ=America/Phoenix. Do the same to your PUID and GUID.Also modify your config folder. Only modify the left side of the colon. For example mine on a linux server would look like: volumes:  - /home/aaron/docker/prowlarr:/configOnce you have the desired settings, copy the entire file and paste into your compose.yml file.Now you can run it with:sudo docker compose up -dAccessing ProwlarrNow that you have it running, open your favorite web browser and go to http://localhost:9696 if running on the same machine, or if it is not, use the ip address of the server.You now have a running version of prowlarr!!A huge shoutout to Hotio and Servarr Wiki. You can find more information and support from the following links:Hotio:https://hotio.dev/containers/prowlarr/Servarr Wiki:https://wiki.servarr.com/en/prowlarr"
+  },
+  
+  {
+    "title": "Introduction to Servarr",
+    "url": "/posts/servarr-intro/",
+    "categories": "servarr",
+    "tags": "homelab, servarr, self-host",
+    "date": "2024-02-22 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "IntroBy no means am I going to reinvent the wheel. This is just a general overview of my current setup.I started growing my media library back in the day, and it became a hassle. Especially on a Ma...",
+    "content": "IntroBy no means am I going to reinvent the wheel. This is just a general overview of my current setup.I started growing my media library back in the day, and it became a hassle. Especially on a Mac.I recently found the arr suite and fell in love. It has everything to help manage your media library broken down by type.ServarrThe reason for the name servarr is due to the arr at the end of the services. Prowlarr, Radarr, Lidarr, Sonarr, Readarr, etc.Prowlarr is an indexer. Radarr is for movies.Sonarr is for tv shows.Lidarr is for music.Readarr is for books.Data StructureYour data structure should look like this:|--- /data|      |---- 1 media|      |        |_ movies|      |            |_ Big Buck Bunny|      |                |_ big.buck.bunny.mp4|      |        |_ series|      |            |_ Example 1|      |                |_ Season 1|      |                    |_ Example1.s01e01.pilot.mp4|      |                |_ Season 2|      |            |_  Example 2|      |        |_ music|      |        |_ books|      |        |_ etc.|      |---- 2 downloadsAccessIn order to allow the services access to your media files, for example to allow radarr to see what movies you currently have, they need the parent folder of movies. All subfolders and files will then be able to be read by the service. Similar thing with sonarr. Sonarr just needs access to series. If you gave Sonarr access to media, then it could see all of movies, series, music, books, etc.For more information visit https://wiki.servarr.com"
+  },
+  
+  {
+    "title": "Zimaboard",
+    "url": "/posts/zimaboard/",
+    "categories": "blog",
+    "tags": "homelab, zimaboard, server, ubuntu, self-host",
+    "date": "2024-02-22 00:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "I got a zimaboard recently. I have played around with it a bit. I was not the biggest fan of CasaOS. I can see the appeal. I just was not prepared to use it as a NAS with storage. I ended up instal...",
+    "content": "I got a zimaboard recently. I have played around with it a bit. I was not the biggest fan of CasaOS. I can see the appeal. I just was not prepared to use it as a NAS with storage. I ended up installing Ubuntu Server 23.10 on it.I opted for this route to use docker and docker compose. I have a handful of services on it that I both use and am experimenting with. Lately I’ve been messing around with Traefik and trying to get it to work with more services than just a couple I finally got to run on it. It’s also what I used to help me build this site, A huge shout out to TechnoTim.So far, I wish I had more of them. I would love to create a cluster for High Availability and migrate my existing containers to kubernetes. I highly recommend the zimaboard for any projects anyone might consider to want to do.I at the very least wish I could have a second one so as to play around with proxmox on the second. If it turns out I liked it, I could then recreate my containers on the second one, then install proxmox on the first, then split up the duties."
+  },
+  
+  {
+    "title": "Reverse Proxy",
+    "url": "/posts/reverse-proxy/",
+    "categories": "blog",
+    "tags": "homelab, server, ubuntu, zimaboard",
+    "date": "2024-02-18 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "I spent this weekend trying to figure out reverse proxy. I tried NGINX, Caddy, and finally Traefik. I couldn’t get nginx or caddy to work even after multiple attempts. I finally got traefik to work...",
+    "content": "I spent this weekend trying to figure out reverse proxy. I tried NGINX, Caddy, and finally Traefik. I couldn’t get nginx or caddy to work even after multiple attempts. I finally got traefik to work after all day messing with it. Now I have some services exposed via a traefik and authelia combo.Maybe on a later date, I explain how I got it to work."
+  },
+  
+  {
+    "title": "Homelab Update",
+    "url": "/posts/homelab-update/",
+    "categories": "blog",
+    "tags": "homelab, server, ubuntu, zimaboard",
+    "date": "2024-02-18 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "So as of 01/07/24, I have unintalled the Dell R730. It was producing too much heat and causing the office to get too hot. I got an Intel Nuc11 Enthusiast which can be read about above. I pretty muc...",
+    "content": "So as of 01/07/24, I have unintalled the Dell R730. It was producing too much heat and causing the office to get too hot. I got an Intel Nuc11 Enthusiast which can be read about above. I pretty much only use it to run Plex and Tautulli. I mounted my drives in the Qnap which is running TrueNAS scale and point the directories to it.I also got a Zimaboard. I also installed Ubuntu Server on it. I pretty much use it to run almost all of the rest of the services for my media and other things. I bought a domain name and am using Cloudflare Tunnels to connect my services including Plex to my domain name. I attempted to install Organizr bare metal, however, I could not get it to work. I got Homepage to work for a short bit, but it stopped and required a terminal to be running. I opted to install Organizr via docker. Basically Organizr is a home dashboard to manage services with predefined widgets to connect your services to."
+  },
+  
+  {
+    "title": "Intel Nuc11 Enthusiast Update",
+    "url": "/posts/intel-nuc11-enthusiast-update/",
+    "categories": "blog",
+    "tags": "homelab, hardware, server, ubuntu",
+    "date": "2023-11-23 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "Today, 11/24/23 I ended up installing Ubuntu Server 23.10 on my Nuc11. So far everything is running how I expected, much better. I have set up ssh which includes going into the /etc/ssh and copying...",
+    "content": "Today, 11/24/23 I ended up installing Ubuntu Server 23.10 on my Nuc11. So far everything is running how I expected, much better. I have set up ssh which includes going into the /etc/ssh and copying the rsa file to get the key so my mac can access it. I also installed plex and set up the systemd service by creating a plexmediaserver.service file and modifying it so that I can enable the start up on boot. I also mounted my network folders and edited the /etc/fstab file so I can mount all the drives at once with sudo mount -a command. I used docker to install a couple of other services like tautulli (connects to plex and shows what is playing and how) and watchtower (a service that automatically updates docker services)."
+  },
+  
+  {
+    "title": "Intel Nuc11 Enthusiast",
+    "url": "/posts/intel-nuc11-enthusiast/",
+    "categories": "blog",
+    "tags": "homelab, hardware, server, ubuntu",
+    "date": "2023-11-22 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "So for my experience as of 11/23/23, using windows so far didn’t seem that bad at first. I could remote into it using Microsoft’s Remote Manager. Having a GUI seemed nice and it was not bad looking...",
+    "content": "So for my experience as of 11/23/23, using windows so far didn’t seem that bad at first. I could remote into it using Microsoft’s Remote Manager. Having a GUI seemed nice and it was not bad looking. Installing Plex seemed like a breeze. So was installing handbrake and makemkv. I mounted the media files remotely using my NAS and got Plex set up.Where this goes badly, is that for some reason the system continues to fall asleep and interferes with Plex staying open to serve my media. I looked through all the settings and changed all the ones I could find. I looked online for help. I changed a few more settings. It still won’t keep it open.I am debating on whether to install Ubuntu Server on it. I can use Windows to update my handheld ham radio as the software only runs on Windows. On the other hand, Linux has given me no issues. I am currently debating in my head.Photo"
+  },
+  
+  {
+    "title": "Old Rack",
+    "url": "/posts/old-rack/",
+    "categories": "blog",
+    "tags": "homelab, hardware, network",
+    "date": "2023-11-22 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "EchogearThe Netgear Orbi was decent, but there was some spottiness. I started following some Reddit groups and went down some rabbit holes on YouTube. I found the Unifi Dream Machine. I spent quite...",
+    "content": "EchogearThe Netgear Orbi was decent, but there was some spottiness. I started following some Reddit groups and went down some rabbit holes on YouTube. I found the Unifi Dream Machine. I spent quite a bit of time deliberating and saving. I finally bought it along with some accessories. I spent a day wiring my house with Cat6 ethernet cabling, installing the Access Points, and setting it up with my ISP. I also had to get a rack for it.I set it all up and it worked gloriously. I found it also gave me room to grow as my knowledge and experience grew.I learned a little about vlans, and set some up. My goal was to have certain things on their own vlan depending on the category it falls under. I followed some guides online and they worked well except when I added firewalls and rules for them.I ended up deleting the rules for them as it did not work as well as I thought it might.I also ended up switching VPN providers as I was using TorVPN and I went to NordVPN. I did this because I could not get TorVPN to be added to my router as a client. I did get NordVPN to work. I also found a limitation with the Dream Machine. I could not specify certain traffic to be routed through the VPN. It had to be done via IP address. If it is possible, I haven’t figured it out yet."
+  },
+  
+  {
+    "title": "Dell R730",
+    "url": "/posts/dell-r730/",
+    "categories": "",
+    "tags": "homelab, hardware, server",
+    "date": "2023-06-30 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "I bought my R730 and was super excited. I got a couple accessories to go with it like a NVIDIA Quadro P4000, a keyboard, mouse, and monitor. I quickly found that the server would not fit in my Netw...",
+    "content": "I bought my R730 and was super excited. I got a couple accessories to go with it like a NVIDIA Quadro P4000, a keyboard, mouse, and monitor. I quickly found that the server would not fit in my Network rack, to my disappointment. I ended up just laying it on top. I installed TrueNAS and some drives.I started to copy the files from one NAS to this one. Once done, I felt like it was more robust. There were no lagging issues like I had on the Qnap.My R730:I had a few things I had to figure out. Due to the graphics card not being from Dell, it caused the fans to spin up and be incredibly loud in my home office. I found a solution via an application on TrueCharts, a TrueNAS application repository. It allowed controlling the fan speed which also reduced the volume.Once summer hit, I ran into another problem. My office was now 10 degrees warmer at least, than the rest of my house. I ended up having to shut it down for the summer."
+  },
+  
+  {
+    "title": "NAS (Network Attached Storage)",
+    "url": "/posts/nas-network-attached-storage/",
+    "categories": "blog",
+    "tags": "homelab, hardware, network, storage, NAS",
+    "date": "2022-09-30 22:00:00 -0700",
+    
+
+
+
+
+
+    
+    "snippet": "My first NAS…I started to venture into the NAS world due to the ability to expand and grow outside of the realm of plugging in my hard drive and storing things on that due to slowly running out of ...",
+    "content": "My first NAS…I started to venture into the NAS world due to the ability to expand and grow outside of the realm of plugging in my hard drive and storing things on that due to slowly running out of room on my 8TB Seagate hard drive. I looked into a few brands including Terramaster, Buffalo, Synology, and Qnap. What sold me on the Qnap was the ability to transcode video for Plex.My TVS672XT:I also bought a few 3.5 inch hard drives to begin filling it.I then found I did not like the interface of the Qnap QUTS Hero OS. I have seen through my trips of the YouTube rabbit hole installing other OS’s, primarily TrueNAS. I ended up getting a couple more drives (some 3.5” and some NVME) and switched the OS.I quickly realized I would have trouble with moving data on TrueNAS because it would not recognize my external drive (the 8TB). I figured out eventually that I could connect the 8TB to my computer, and use the copy from one folder to the other method, or use rsync. I finally got it to work with data on it.I found the Plex application on both the QUTS Hero and the TrueNAS were not as robust as I’d hoped. So I started looking around to maybe figure out a solution. I figured splitting up the duties, as this was being used as an all in one solution, might do the trick as I read that NASes are not the best for all in one solutions and to just let a NAS be a NAS.I ended up getting a Dell R730."
+  }
+  
+]
+
