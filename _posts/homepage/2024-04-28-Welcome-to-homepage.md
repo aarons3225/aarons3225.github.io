@@ -9,7 +9,7 @@ tags:
 ---
 ![banner][/aarons3225.github.io/assets/banners/homepage.jpeg]
 # What is homepage?
-==A modern, _fully static, fast_, secure _fully proxied_, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{: .prompt-info }==[^1]
+>A modern, _fully static, fast_, secure _fully proxied_, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{.is-info }[^1]
 
 # How to install
 
