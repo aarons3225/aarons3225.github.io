@@ -25,11 +25,11 @@ sudo rm swap.img
 
 Next go to webmin dashboard, http://ipaddress:10000. Go to System/Disk and Network Filesystems. At the bottom is Virtual Memory. Click on it. 
 
-![Webmin 1](/assets/img/webmin/Webmin1.png)
+![Webmin 1](/assets/img/webmin/Webmin1.webp)
 
 It should take you to a Edit Mount page. On the mount now? click mount. on the right, make sure swap file is selected. Click save.
 
-![Webmin 2](/assets/img/webmin/Webmin2.png)
+![Webmin 2](/assets/img/webmin/Webmin2.webp)
 
 It should bring you to a page to select file size. Edit it, then click save.
 
@@ -42,15 +42,15 @@ free -m
 ---
 Open the webmin dashboard, http://ipaddress:10000, then go to Hardware/Logical Volume Management.
 
-![Webmin 3](/assets/img/webmin/Webmin3.png)
+![Webmin 3](/assets/img/webmin/Webmin3.webp)
 
 Click on Logical Volumes
 
-![Webmin 4](/assets/img/webmin/Webmin4.png)
+![Webmin 4](/assets/img/webmin/Webmin4.webp)
 
 Click on the disk icon labeled ubuntu-lv with a size of disk below label.
 
-![Webmin 5](/assets/img/webmin/Webmin5.png)
+![Webmin 5](/assets/img/webmin/Webmin5.webp)
 
 For volume size, modify that to desired size, then click save.
 
