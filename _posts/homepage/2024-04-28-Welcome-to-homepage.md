@@ -167,7 +167,6 @@ Photos of mine:
 ![Utilities](/assets/img/homepage/homepage-utilities.webp)
 ![Servers](/assets/img/homepage/homepage-servers.webp)
 ![Media](/assets/img/homepage/homepage-media.webp)
-![Downloaders](/assets/img/homepage/homepage-downloaders.webp)
 ![Network](/assets/img/homepage/homepage-network.webp)
 
 # Citations
