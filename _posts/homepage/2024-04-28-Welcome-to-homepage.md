@@ -9,7 +9,7 @@ tags:
 ---
 ![Banner](/assets/banners/homepage.jpeg)
 # What is homepage?
->A modern, _fully static, fast_, secure _fully proxied_, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{: .is-info }[^1]
+>A modern, _fully static, fast_, secure _fully proxied_, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.{: .is-info }[^1]
 
 # How to install
 
@@ -164,10 +164,10 @@ at the very bottom, you will find widgets for the top bar part. There are very c
 [Tabs](https://gethomepage.dev/latest/configs/settings/#tabs)
 
 Photos of mine:
-![Utilities](/aarons3225.github.io/assets/img/homepage/homepage-utilities.webp)
-![Servers](aarons3225.github.io/assets/img/homepage/homepage-servers.webp)
-![Media](/aarons3225.github.io/assets/img/homepage/homepage-media.webp)
-![Network](/aarons3225.github.io/assets/img/homepage/homepage-network.webp)
+![Utilities](/assets/img/homepage/homepage-utilities.webp)
+![Servers](/assets/img/homepage/homepage-servers.webp)
+![Media](/assets/img/homepage/homepage-media.webp)
+![Network](/assets/img/homepage/homepage-network.webp)
 
 # Citations
 
