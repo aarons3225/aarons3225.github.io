@@ -164,10 +164,10 @@ at the very bottom, you will find widgets for the top bar part. There are very c
 [Tabs](https://gethomepage.dev/latest/configs/settings/#tabs)
 
 Photos of mine:
-![Utilities](/aarons3225.github.io/assets/img/homepage/homepage_utilities.webp)
-![Servers](aarons3225.github.io/assets/img/homepage/homepage_servers.webp)
-![Media](/aarons3225.github.io/assets/img/homepage/homepage_media.webp)
-![Network](/aarons3225.github.io/assets/img/homepage/homepage_network.webp)
+![Utilities](/aarons3225.github.io/assets/img/homepage/homepage-utilities.webp)
+![Servers](aarons3225.github.io/assets/img/homepage/homepage-servers.webp)
+![Media](/aarons3225.github.io/assets/img/homepage/homepage-media.webp)
+![Network](/aarons3225.github.io/assets/img/homepage/homepage-network.webp)
 
 # Citations
 
