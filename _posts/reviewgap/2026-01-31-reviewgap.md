@@ -1,7 +1,7 @@
 ---
 title: "ReviewGap: Identifying Documentation Gaps Before They Become Tickets"
 date: 2026-01-31 00:00:00 -0500
-categories: projects/reviewgap
+categories: projects
 tags:
   - project
   - python

@@ -1,7 +1,7 @@
 ---
 title: Technitium DNS Setup Guide
 date: 2025-01-12 18:00:00
-categories: homelab
+categories: how-to
 tags:
   - documentation
   - dns
