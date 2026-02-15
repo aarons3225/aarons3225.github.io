@@ -1,11 +1,7 @@
 ---
 id: 202602150145
 title: Homelab
-<<<<<<< Updated upstream
 date: 2026-02-15 01:45:00 -0700
-=======
-date: 02/15/2026 01:45:00 -0700
->>>>>>> Stashed changes
 categories: blog
 tags:
   - linux
