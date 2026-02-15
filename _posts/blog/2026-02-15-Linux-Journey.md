@@ -2,7 +2,7 @@
 id: 202602150145
 title: Homelab
 date: 2026-02-15 01:45:00 -0700
-categories: "[[blog]]"
+categories: blog
 tags:
   - linux
 ---
