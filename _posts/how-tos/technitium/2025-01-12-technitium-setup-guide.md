@@ -3,7 +3,6 @@ title: Technitium DNS Setup Guide
 date: 2025-01-12 18:00:00
 categories:
   - how-to
-  - self-host
 tags:
   - documentation
   - dns
@@ -11,6 +10,7 @@ tags:
   - letsencrypt
   - doh
   - dot
+  - self-host
 ---
 # 📃 Technitium DNS Server Setup Guide
 
