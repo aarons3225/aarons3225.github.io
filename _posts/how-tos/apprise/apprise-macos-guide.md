@@ -1,7 +1,7 @@
 ---
 title: "Apprise: A Notification Tool"
 date: 2025-06-20 00:00:00 -0700
-categories: How-To
+categories: how-to
 tags:
   - linux
 ---

@@ -2,7 +2,7 @@
 title: Swap.img and disk full fix
 date: 2024-03-10 00:00:00 -500
 categories:
-  - How-To
+  - how-to
   - homelab
 tags:
   - homelab

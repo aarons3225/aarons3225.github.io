@@ -2,7 +2,7 @@
 title: Angie Set-up Guide
 date: 2025-12-31 00:00:00 -0700
 categories:
-  - How-To
+  - how-to
 tags:
   - linux
   - networking

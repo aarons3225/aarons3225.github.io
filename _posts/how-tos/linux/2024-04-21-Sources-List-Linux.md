@@ -2,7 +2,7 @@
 title: Sources List Linux
 date: 2024-04-21 00:00:00 -500
 categories:
-  - How-To
+  - how-to
   - homelab
 tags:
   - homelab

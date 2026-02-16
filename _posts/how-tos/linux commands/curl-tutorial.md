@@ -2,7 +2,7 @@
 title: 'curl: Guide to Using "curl"'
 date: 2024-08-31 00:00:00 -0700
 categories:
-  - How-To
+  - how-to
 tags:
   - linux
 ---

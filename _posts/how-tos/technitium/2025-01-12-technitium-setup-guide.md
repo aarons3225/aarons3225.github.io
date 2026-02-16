@@ -2,7 +2,7 @@
 title: Technitium DNS Setup Guide
 date: 2025-01-12 18:00:00
 categories:
-  - How-To
+  - how-to
   - self-host
 tags:
   - documentation

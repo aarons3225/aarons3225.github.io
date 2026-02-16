@@ -2,7 +2,7 @@
 title: "sed: A Useful Editor"
 date: 2024-08-14 00:00:00 -0700
 categories:
-  - How-To
+  - how-to
 tags:
   - linux
 ---
