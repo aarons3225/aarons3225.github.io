@@ -1,11 +1,12 @@
 ---
-title: "SOCKS5 Set-up Guide"
+title: SOCKS5 Set-up Guide
 date: 2025-03-14 00:00:00 -0700
-categories: how-to
+categories:
+  - How-To
 tags:
-- linux
-- networking
-- proxy
+  - linux
+  - networking
+  - proxy
 ---
 # SOCKS5 Proxy Complete Guide
 

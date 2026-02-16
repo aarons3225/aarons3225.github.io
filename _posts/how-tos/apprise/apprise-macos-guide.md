@@ -1,9 +1,9 @@
 ---
 title: "Apprise: A Notification Tool"
 date: 2025-06-20 00:00:00 -0700
-categories: how-to
+categories: How-To
 tags:
-- linux
+  - linux
 ---
 
 # Apprise on macOS: Complete Setup and Configuration Guide

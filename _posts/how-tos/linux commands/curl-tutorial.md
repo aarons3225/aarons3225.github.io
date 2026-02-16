@@ -1,9 +1,10 @@
 ---
 title: 'curl: Guide to Using "curl"'
 date: 2024-08-31 00:00:00 -0700
-categories: how-to
+categories:
+  - How-To
 tags:
-- linux
+  - linux
 ---
 # A Comprehensive Guide to curl
 
