@@ -1,7 +1,7 @@
 # The Site Configuration
 
 # Host
-host: 192.168.0.11
+host: 10.0.0.8
 
 # Import the theme
 theme: jekyll-theme-chirpy
