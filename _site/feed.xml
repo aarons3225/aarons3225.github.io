@@ -4,7 +4,7 @@
   <id>http://10.0.0.8:4000/</id>
   <title>OdinActual</title>
   <subtitle>A blog, docs, etc. for my homelab.</subtitle>
-  <updated>2026-03-07T15:41:35-07:00</updated>
+  <updated>2026-03-07T15:59:55-07:00</updated>
   <author>
     <name>Aaron</name>
     <uri>http://10.0.0.8:4000/</uri>
@@ -40,22 +40,24 @@
 
   <summary>Table of Contents
 
-  [[#Network Attached Storage]]
-  [[#Requirements]]
-  [[#Download the OS]]
-  [[#Install the OS]]
-  [[#Configure the System]]
+  Network Attached Storage
+  Requirements
+  Download the OS
+  Install the OS
+  Configure the System
     
-      [[#SSH Access]]
-      [[#Configure DNF Package Manager (Optional)]]
-      [[#Install Essential Packages]]
-      [[#Configure Firewall]]
-      [[#Enable Automatic Updates]]
-      [[#Install ZFS]]
+      SSH Access
+      Configure DNF Package Manager (Optional)
+      Install Essential Packages
+      Configure Firewall
+      Enable Automatic Updates
+      Install ZFS
     
   
-  [[#Set Up the ZFS Pool]]
-  [[#Configu...</summary>
+  Set Up the ZFS Pool
+  Configure Cockpit (Web UI)
+  Configure Samba Server
+  Configure Samba ...</summary>
 
   </entry>
 
